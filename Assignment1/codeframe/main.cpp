@@ -37,6 +37,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
                                       float zNear, float zFar)
 {
     // Students will implement this function
+	// zNear > 0, zFar > 0
 
     Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
 	float tana = tan(eye_fov * MY_PI / 360.0);
@@ -54,6 +55,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 	Eigen::Matrix4f scale = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f trans = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f persportho = Eigen::Matrix4f::Identity();
+	Eigen::Matrix4f mirrortrans = Eigen::Matrix4f::Identity();
 	scale << 2. / (r - l), 0, 0, 0,
 		  0, 2. / (t - b), 0, 0,
 		  0, 0, 2. / (n - f), 0,
@@ -66,9 +68,11 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 			   0, n, 0, 0,
 			   0, 0, f + n, -n * f,
 			   0, 0, 1, 0;
-	projection = scale * trans * persportho;
-
-
+	mirrortrans << 1, 0, 0, 0,
+				   0, 1, 0, 0,
+				   0, 0,-1, 0,
+				   0, 0, 0, 1;
+	projection = mirrortrans * (-scale * trans * persportho);
 	
     return projection;
 }
@@ -133,7 +137,7 @@ int main(int argc, const char** argv)
 
         r.set_model(get_model_matrix(angle));
         r.set_view(get_view_matrix(eye_pos));
-        r.set_projection(get_projection_matrix(45, 1, -0.1, -50));
+        r.set_projection(get_projection_matrix(45, 1, 0.1, 50));
 
         r.draw(pos_id, ind_id, rst::Primitive::Triangle);
         cv::Mat image(700, 700, CV_32FC3, r.frame_buffer().data());
@@ -152,7 +156,7 @@ int main(int argc, const char** argv)
 		else
 			r.set_model(get_model_matrix(angle));
         r.set_view(get_view_matrix(eye_pos));
-        r.set_projection(get_projection_matrix(45, 1, -0.1, -50));
+        r.set_projection(get_projection_matrix(45, 1, 0.1, 50));
 
         r.draw(pos_id, ind_id, rst::Primitive::Triangle);
 
