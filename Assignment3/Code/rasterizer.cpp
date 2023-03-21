@@ -242,7 +242,7 @@ void rst::rasterizer::draw(std::vector<Triangle *> &TriangleList) {
 
 static Eigen::Vector3f interpolate(float alpha, float beta, float gamma, const Eigen::Vector3f& vert1, const Eigen::Vector3f& vert2, const Eigen::Vector3f& vert3, float weight)
 {
-    return (alpha * vert1 + beta * vert2 + gamma * vert3) / weight;
+    return (alpha * vert1 + beta * vert2 + gamma * vert3) * weight;
 }
 
 static Eigen::Vector2f interpolate(float alpha, float beta, float gamma, const Eigen::Vector2f& vert1, const Eigen::Vector2f& vert2, const Eigen::Vector2f& vert3, float weight)
@@ -250,8 +250,8 @@ static Eigen::Vector2f interpolate(float alpha, float beta, float gamma, const E
     auto u = (alpha * vert1[0] + beta * vert2[0] + gamma * vert3[0]);
     auto v = (alpha * vert1[1] + beta * vert2[1] + gamma * vert3[1]);
 
-    u /= weight;
-    v /= weight;
+    u *= weight;
+    v *= weight;
 
     return Eigen::Vector2f(u, v);
 }
@@ -259,18 +259,11 @@ static Eigen::Vector2f interpolate(float alpha, float beta, float gamma, const E
 //Screen space rasterization
 void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eigen::Vector3f, 3>& view_pos) 
 {
-	auto v = t.toVector4();
-    // TODO: From your HW3, get the triangle rasterization code.
-    // TODO: Inside your rasterization loop:
-    //    * v[i].w() is the vertex view space depth value z.
-    //    * Z is interpolated view space depth for the current pixel
-    //    * zp is depth between zNear and zFar, used for z-buffer
-
     //float Z = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
     //float zp = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
     //zp *= Z;
 
-	//find out the bounding box
+	//find out the bounding bo
 	float xmin, xmax, ymin, ymax;
 	xmin = std::min({t.v[0][0], t.v[1][0], t.v[2][0]});
 	xmax = std::max({t.v[0][0], t.v[1][0], t.v[2][0]});
@@ -285,42 +278,44 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 	{
 		for (int j = floor(ymin); j < ymaxi; j++)
 		{
-			float degree = depthTriangle(i, j, t.v);
-			if (degree > 0)
+            //判断像素点是否在三角形中
+			bool inTriangle = insideTriangle(i, j, t.v);
+
+			if (inTriangle)
 			{
-				//set up Barycentric coordinates
+                //定义区
+                Eigen::Vector2i point = Eigen::Vector2i(i, j);
+                int index = rst::rasterizer::get_index(i, j);
+                float inxdepth = rst::rasterizer::depth_buf[index];
+
+				//建立重心坐标关系式
 				auto[alpha, beta, gamma] = computeBarycentric2D(i, j, t.v);
 
 				//得到三角形内部点的z轴深度插值
-				float Z = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
-				float zp = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
-				zp *= Z;
+                float z_interpolated = 1.0 / (alpha / t.v[0].w() + beta / t.v[1].w() + gamma / t.v[2].w());
 				
-				//颜色插值
-				auto interpolated_color = interpolate(alpha, beta, gamma, t.color[0], t.color[1], t.color[2], 3);
-				//纹理坐标插值
-				auto interpolated_texcoords = interpolate(alpha, beta, gamma, t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], 3);
-				//法向量插值
-				auto interpolated_normal = interpolate(alpha, beta, gamma, t.normal[0], t.normal[1], t.normal[2], 3);
+				//颜色插值，纹理坐标插值，法向量插值
+				auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
+				auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
+				auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
 
-				//fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, rst::rasterizer::texture ? &*texture : nullptr;
-				
+                //定义名为payload的fragment_shader_payload类型的结构体
+                fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                auto pixel_color = fragment_shader(payload);
 
-				Eigen::Vector3f point = Eigen::Vector3f(i, j, 1.0f);
-				int index = rst::rasterizer::get_index(i, j);
-				float inxdepth = rst::rasterizer::depth_buf[index];
-				
-				if (zp < inxdepth)
+								
+				if (z_interpolated < inxdepth)
 				{
-					set_pixel(point, degree * t.getColor());	
-					rst::rasterizer::depth_degree[index] = degree; 
+					set_pixel(point, pixel_color);	
+					//rst::rasterizer::depth_degree[index] = degree; 
 					rst::rasterizer::depth_buf[index] = z_interpolated;
+                    //rst::rasterizer::frame_buf[index] = pixel_color;
 				}
-				else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
-				{
-					set_pixel(point, t.getColor() * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
-					rst::rasterizer::depth_buf[index] = z_interpolated;
-				}
+				//else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
+				//{
+				//	set_pixel(point, interpolated_color * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
+				//	rst::rasterizer::depth_buf[index] = z_interpolated;
+				//}
 			}
 		}
 	}

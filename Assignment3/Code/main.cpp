@@ -50,7 +50,40 @@ Eigen::Matrix4f get_model_matrix(float angle)
 Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float zNear, float zFar)
 {
     // TODO: Use the same projection matrix from the previous assignments
+    Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
+    float tana = tan(eye_fov * MY_PI / 360.0);
+    float l, r, n, f, b, t;
+    n = zNear;
+    f = zFar;
+    t = -n * tana;
+    b = -t;
+    l = -t * aspect_ratio;
+    r = -l;
 
+    Eigen::Matrix4f scale = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f trans = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f persportho = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f mirrortrans = Eigen::Matrix4f::Identity();
+
+    scale << 2. / (r - l), 0, 0, 0,
+          0, 2. / (t - b), 0, 0,
+          0, 0, 2. / (n - f), 0,
+          0, 0, 0, 1;
+    trans << 1, 0, 0, -(l + r) / 2.,
+          0, 1, 0, -(t + b) / 2.,
+          0, 0, 1, -(n + f) / 2.,
+          0, 0, 0, 1;
+    persportho << n, 0, 0, 0,
+               0, n, 0, 0,
+               0, 0, f + n, -n * f,
+               0, 0, 1, 0;
+    mirrortrans << 1, 0, 0, 0,
+                   0, 1, 0, 0,
+                   0, 0,-1, 0,
+                   0, 0, 0, 1;  
+
+    projection = mirrortrans * (-scale * trans * persportho);
+    return projection;
 }
 
 Eigen::Vector3f vertex_shader(const vertex_shader_payload& payload)
@@ -84,7 +117,7 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     if (payload.texture)
     {
         // TODO: Get the texture value at the texture coordinates of the current fragment
-
+        return_color = payload.texture->getColor(payload.tex_coords.x(), payload.tex_coords.y());
     }
     Eigen::Vector3f texture_color;
     texture_color << return_color.x(), return_color.y(), return_color.z();
@@ -112,7 +145,14 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     {
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular* 
         // components are. Then, accumulate that result on the *result_color* object.
-
+        auto v = eye_pos - point; //v为出射光方向（指向眼睛）
+        auto l = light.position - point; //l为指向入射光源方向
+        auto h = (v + l).normalized(); //h为半程向量即v+l归一化后的单位向量
+        auto r = l.dot(l); //衰减因子
+        auto ambient = ka.cwiseProduct(amb_light_intensity);
+        auto diffuse = kd.cwiseProduct(light.intensity / r) * std::max(0.0f, normal.normalized().dot(l.normalized()));
+        auto specular = ks.cwiseProduct(light.intensity / r) * std::pow(std::max(0.0f, normal.normalized().dot(h)), p);
+        result_color += (ambient + diffuse + specular);
     }
 
     return result_color * 255.f;

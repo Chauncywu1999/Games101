@@ -184,10 +184,10 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
 			{
 				// If so, use the following code to get the interpolated z value.
 				auto[alpha, beta, gamma] = computeBarycentric2D(i, j, t.v);
-				float w_reciprocal = 1.0/(alpha / (-t.v[0].w()) + beta / (-t.v[1].w()) + gamma / (-t.v[2].w()));
+				float z_interpolated = 1.0/(alpha / t.v[0].w() + beta / t.v[1].w() + gamma / t.v[2].w());
 				//float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
 				//z_interpolated *= w_reciprocal;		
-				float z_interpolated = -w_reciprocal;
+				//float z_interpolated = -w_reciprocal;
 
 				Eigen::Vector3f point = Eigen::Vector3f(i, j, 1.0f);
 				int index = rst::rasterizer::get_index(i, j);
@@ -202,7 +202,7 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
 				else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
 				{
 					set_pixel(point, t.getColor() * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
-					rst::rasterizer::depth_buf[index] = w_reciprocal;
+					rst::rasterizer::depth_buf[index] = z_interpolated;
 				}
 				//if (z_interpolated < inxdepth)
 				//{
