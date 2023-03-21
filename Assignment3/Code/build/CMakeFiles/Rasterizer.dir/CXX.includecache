@@ -6,25 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/Users/wuxiangcheng/project/Assignment3/Code/OBJ_Loader.h
-iostream
--
-vector
--
-string
--
-fstream
--
-math.h
--
-
 /Users/wuxiangcheng/project/Assignment3/Code/Shader.hpp
 eigen3/Eigen/Eigen
 -
 Texture.hpp
 /Users/wuxiangcheng/project/Assignment3/Code/Texture.hpp
-
-/Users/wuxiangcheng/project/Assignment3/Code/Texture.cpp
 
 /Users/wuxiangcheng/project/Assignment3/Code/Texture.hpp
 global.hpp
@@ -34,14 +20,6 @@ eigen3/Eigen/Eigen
 opencv2/opencv.hpp
 -
 
-/Users/wuxiangcheng/project/Assignment3/Code/Triangle.cpp
-Triangle.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/Triangle.hpp
-algorithm
--
-array
--
-
 /Users/wuxiangcheng/project/Assignment3/Code/Triangle.hpp
 eigen3/Eigen/Eigen
 -
@@ -49,24 +27,6 @@ Texture.hpp
 /Users/wuxiangcheng/project/Assignment3/Code/Texture.hpp
 
 /Users/wuxiangcheng/project/Assignment3/Code/global.hpp
-
-/Users/wuxiangcheng/project/Assignment3/Code/main.cpp
-iostream
--
-opencv2/opencv.hpp
--
-global.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/global.hpp
-rasterizer.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/rasterizer.hpp
-Triangle.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/Triangle.hpp
-Shader.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/Shader.hpp
-Texture.hpp
-/Users/wuxiangcheng/project/Assignment3/Code/Texture.hpp
-OBJ_Loader.h
-/Users/wuxiangcheng/project/Assignment3/Code/OBJ_Loader.h
 
 /Users/wuxiangcheng/project/Assignment3/Code/rasterizer.cpp
 algorithm
