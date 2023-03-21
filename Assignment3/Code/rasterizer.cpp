@@ -303,7 +303,7 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 				//法向量插值
 				auto interpolated_normal = interpolate(alpha, beta, gamma, t.normal[0], t.normal[1], t.normal[2], 3);
 
-				fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, rst::rasterizer::texture ? &*texture : nullptr;
+				//fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, rst::rasterizer::texture ? &*texture : nullptr;
 				
 
 				Eigen::Vector3f point = Eigen::Vector3f(i, j, 1.0f);
