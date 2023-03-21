@@ -67,69 +67,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 	Eigen::Matrix4f trans = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f persportho = Eigen::Matrix4f::Identity();
 	scale << 2. / (r - l), 0, 0, 0,
-		  0, 2. / (t - l), 0, 0,
-		  0, 0, 2. / (n - f), 0,
-		  0, 0, 0, 1;
-	trans << 1, 0, 0, -(l + r) / 2.,
-		  0, 1, 0, -(t + b) / 2.,
-		  0, 0, 1, -(n + f) / 2.,
-		  0, 0, 0, 1;
-	persportho << n, 0, 0, 0,
-			   0, n, 0, 0,
-			   0, 0, f + n, -n * f,
-			   0, 0, 1, 0;
-	projection = scale * trans * persportho;
-
-    return projection;
-}
-
-Eigen::Vector3f vertex_shader(const vertex_shader_payload& payload)
-{
-    return payload.position;
-}
-
-Eigen::Vector3f normal_fragment_shader(const fragment_shader_payload& payload)
-{
-    Eigen::Vector3f return_color = (payload.normal.head<3>().normalized() + Eigen::Vector3f(1.0f, 1.0f, 1.0f)) / 2.f;
-    Eigen::Vector3f result;
-    result << return_color.x() * 255, return_color.y() * 255, return_color.z() * 255;
-    return result;
-}
-
-static Eigen::Vector3f reflect(const Eigen::Vector3f& vec, const Eigen::Vector3f& axis)
-{
-    auto costheta = vec.dot(axis);
-    return (2 * costheta * axis - vec).normalized();
-}
-
-struct light
-{
-    Eigen::Vector3f position;
-    Eigen::Vector3f intensity;
-};
-
-Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
-{
-    Eigen::Vector3f return_color = {0, 0, 0};
-    if (payload.texture)
-    {
-        // TODO: Get the texture value at the texture coordinates of the current fragment
-
-    }
-    Eigen::Vector3f texture_color;
-    texture_color << return_color.x(), return_color.y(), return_color.z();
-
-    Eigen::Vector3f ka = Eigen::Vector3f(0.005, 0.005, 0.005);
-    Eigen::Vector3f kd = texture_color / 255.f;
-    Eigen::Vector3f ks = Eigen::Vector3f(0.7937, 0.7937, 0.7937);
-
-    auto l1 = light{{20, 20, 20}, {500, 500, 500}};
-    auto l2 = light{{-20, 20, 0}, {500, 500, 500}};
-
-    std::vector<light> lights = {l1, l2};
-    Eigen::Vector3f amb_light_intensity{10, 10, 10};
-    Eigen::Vector3f eye_pos{0, 0, 10};
-
+	
     float p = 150;
 
     Eigen::Vector3f color = texture_color;
