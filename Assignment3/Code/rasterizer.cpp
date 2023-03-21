@@ -259,11 +259,7 @@ static Eigen::Vector2f interpolate(float alpha, float beta, float gamma, const E
 //Screen space rasterization
 void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eigen::Vector3f, 3>& view_pos) 
 {
-    //float Z = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
-    //float zp = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
-    //zp *= Z;
-
-	//find out the bounding bo
+	//定义bounding box的界限
 	float xmin, xmax, ymin, ymax;
 	xmin = std::min({t.v[0][0], t.v[1][0], t.v[2][0]});
 	xmax = std::max({t.v[0][0], t.v[1][0], t.v[2][0]});
@@ -289,27 +285,38 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
                 float inxdepth = rst::rasterizer::depth_buf[index];
 
 				//建立重心坐标关系式
-				auto[alpha, beta, gamma] = computeBarycentric2D(i, j, t.v);
+				auto[alpha, beta, gamma] = computeBarycentric2D(i + 0.5f, j + 0.5f, t.v);
 
 				//得到三角形内部点的z轴深度插值
                 float z_interpolated = 1.0 / (alpha / t.v[0].w() + beta / t.v[1].w() + gamma / t.v[2].w());
 				
-				//颜色插值，纹理坐标插值，法向量插值
-				auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
-				auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
-				auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
-
-                //定义名为payload的fragment_shader_payload类型的结构体
-                fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
-                auto pixel_color = fragment_shader(payload);
+//				//颜色插值，纹理坐标插值，法向量插值
+//				auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
+//				auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
+//				auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
+//                auto interpolated_shadingcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), view_pos[0], view_pos[1], view_pos[2], z_interpolated);
+//
+//                //定义名为payload的fragment_shader_payload类型的结构体
+//                fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+//                payload.view_pos = interpolated_shadingcoords;
+//                auto pixel_color = fragment_shader(payload);
 
 								
 				if (z_interpolated < inxdepth)
 				{
+                    //颜色插值，纹理坐标插值，法向量插值
+                    auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
+                    auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
+                    auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
+                    auto interpolated_shadingcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), view_pos[0], view_pos[1], view_pos[2], z_interpolated);
+    
+                    //定义名为payload的fragment_shader_payload类型的结构体
+                    fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                    payload.view_pos = interpolated_shadingcoords;
+                    auto pixel_color = fragment_shader(payload);
 					set_pixel(point, pixel_color);	
 					//rst::rasterizer::depth_degree[index] = degree; 
 					rst::rasterizer::depth_buf[index] = z_interpolated;
-                    //rst::rasterizer::frame_buf[index] = pixel_color;
 				}
 				//else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
 				//{
