@@ -54,8 +54,9 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 	Eigen::Matrix4f scale = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f trans = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f persportho = Eigen::Matrix4f::Identity();
+	Eigen::Matrix4f mirrortrans = Eigen::Matrix4f::Identity();
 	scale << 2. / (r - l), 0, 0, 0,
-		     0, 2. / (t - l), 0, 0,
+		     0, 2. / (t - b), 0, 0,
 		     0, 0, 2. / (n - f), 0,
 		     0, 0, 0, 1;
 	trans << 1, 0, 0, -(l + r) / 2.,
@@ -66,8 +67,12 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 			      0, n, 0, 0,
 			      0, 0, f + n, -n * f,
 			      0, 0, 1, 0;
-	projection = scale * trans * persportho;
-
+	mirrortrans << 1, 0, 0, 0,
+				   0, 1, 0, 0,
+				   0, 0,-1, 0,
+				   0, 0, 0, 1;
+	projection = mirrortrans * (-scale * trans * persportho);
+	
     return projection;
 }
 
