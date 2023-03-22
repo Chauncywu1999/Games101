@@ -163,6 +163,34 @@ static bool insideTriangle(int x, int y, const Vector4f* _v){
     return false;
 }
 
+float depthTriangle(int x, int y, const Vector4f* _v)
+{
+    int count = 0;
+    float degree;
+    Eigen::Vector3f v[3];
+    Eigen::Vector3f a, b, c;
+
+    //current point
+    Eigen::Vector3f curv;
+    
+    for (int i = 0; i < 3; ++i)
+        v[i] = {_v[i].x(), _v[i].y(), 1.0f};
+    for (float i = 0.25f; i < 1.0f; i += 0.5f)
+    {
+        for (float j = 0.25f; j < 1.0f; j += 0.5f)
+        {
+            curv << x + i, y + j, 1.0f;
+            a = (v[1] - v[0]).cross(curv - v[0]);
+            b = (v[2] - v[1]).cross(curv - v[1]);
+            c = (v[0] - v[2]).cross(curv - v[2]);
+            if (a[2] > 0 && b[2] > 0 && c[2] > 0)
+                count++;
+        }
+    }
+    degree = (float)count / 4;
+    return degree;
+}
+
 static std::tuple<float, float, float> computeBarycentric2D(float x, float y, const Vector4f* v){
     float c1 = (x*(v[1].y() - v[2].y()) + (v[2].x() - v[1].x())*y + v[1].x()*v[2].y() - v[2].x()*v[1].y()) / (v[0].x()*(v[1].y() - v[2].y()) + (v[2].x() - v[1].x())*v[0].y() + v[1].x()*v[2].y() - v[2].x()*v[1].y());
     float c2 = (x*(v[2].y() - v[0].y()) + (v[0].x() - v[2].x())*y + v[2].x()*v[0].y() - v[0].x()*v[2].y()) / (v[1].x()*(v[2].y() - v[0].y()) + (v[0].x() - v[2].x())*v[1].y() + v[2].x()*v[0].y() - v[0].x()*v[2].y());
@@ -275,9 +303,10 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 		for (int j = floor(ymin); j < ymaxi; j++)
 		{
             //判断像素点是否在三角形中
-			bool inTriangle = insideTriangle(i, j, t.v);
+			//bool inTriangle = insideTriangle(i, j, t.v);
+            float degree = depthTriangle(i, j, t.v);
 
-			if (inTriangle)
+			if (degree > 0)
 			{
                 //定义区
                 Eigen::Vector2i point = Eigen::Vector2i(i, j);
@@ -290,39 +319,43 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 				//得到三角形内部点的z轴深度插值
                 float z_interpolated = 1.0 / (alpha / t.v[0].w() + beta / t.v[1].w() + gamma / t.v[2].w());
 				
+
+                //TODO: Interpolate the attributes:
+                //auto interpolated_color
+                //auto interpolated_normal
+                //auto interpolated_texcoords
+                //auto interpolated_shadingcoords
+            
+                // Use: fragment_shader_payload payload( interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                // Use: payload.view_pos = interpolated_shadingcoords;
+                // Use: Instead of passing the triangle's color directly to the frame buffer, pass the color to the shaders first to get the final color;
+                // Use: auto pixel_color = fragment_shader(payload);
+
+                //颜色插值，纹理坐标插值，法向量插值
+                auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
+                auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
+                auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
+                auto interpolated_shadingcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), view_pos[0], view_pos[1], view_pos[2], z_interpolated);
+
+                //定义名为payload的fragment_shader_payload类型的结构体
+                fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                payload.view_pos = interpolated_shadingcoords;
+                auto pixel_color = fragment_shader(payload);
+
                 //用深度插值来判断对应点是否需要渲染
 				if (z_interpolated < inxdepth)
 				{
-                    //TODO: Interpolate the attributes:
-                    //auto interpolated_color
-                    //auto interpolated_normal
-                    //auto interpolated_texcoords
-                    //auto interpolated_shadingcoords
-                
-                    // Use: fragment_shader_payload payload( interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
-                    // Use: payload.view_pos = interpolated_shadingcoords;
-                    // Use: Instead of passing the triangle's color directly to the frame buffer, pass the color to the shaders first to get the final color;
-                    // Use: auto pixel_color = fragment_shader(payload);
-
-                    //颜色插值，纹理坐标插值，法向量插值
-                    auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
-                    auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
-                    auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
-                    auto interpolated_shadingcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), view_pos[0], view_pos[1], view_pos[2], z_interpolated);
-    
-                    //定义名为payload的fragment_shader_payload类型的结构体
-                    fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
-                    payload.view_pos = interpolated_shadingcoords;
-                    auto pixel_color = fragment_shader(payload);
-					set_pixel(point, pixel_color);	
-					//rst::rasterizer::depth_degree[index] = degree; 
+                    set_pixel(point, degree * pixel_color);	
+					rst::rasterizer::depth_degree[index] = degree; 
 					rst::rasterizer::depth_buf[index] = z_interpolated;
 				}
-				//else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
-				//{
-				//	set_pixel(point, interpolated_color * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
-				//	rst::rasterizer::depth_buf[index] = z_interpolated;
-				//}
+				else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
+				{
+
+					set_pixel(point, pixel_color * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
+                    rst::rasterizer::depth_degree[index] = (degree + rst::rasterizer::depth_degree[index]) / 2.0;
+					rst::rasterizer::depth_buf[index] = z_interpolated;
+				}
 			}
 		}
 	}
@@ -359,19 +392,20 @@ rst::rasterizer::rasterizer(int w, int h) : width(w), height(h)
 {
     frame_buf.resize(w * h);
     depth_buf.resize(w * h);
+    depth_degree.resize(w * h);
 
     texture = std::nullopt;
 }
 
 int rst::rasterizer::get_index(int x, int y)
 {
-    return (height-y)*width + x;
+    return (height - 1 - y)*width + x;
 }
 
 void rst::rasterizer::set_pixel(const Vector2i &point, const Eigen::Vector3f &color)
 {
     //old index: auto ind = point.y() + point.x() * width;
-    int ind = (height-point.y())*width + point.x();
+    int ind = (height - 1 -point.y())*width + point.x();
     frame_buf[ind] = color;
 }
 
