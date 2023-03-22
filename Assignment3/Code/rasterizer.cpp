@@ -290,20 +290,20 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 				//得到三角形内部点的z轴深度插值
                 float z_interpolated = 1.0 / (alpha / t.v[0].w() + beta / t.v[1].w() + gamma / t.v[2].w());
 				
-//				//颜色插值，纹理坐标插值，法向量插值
-//				auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
-//				auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
-//				auto interpolated_normal = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.normal[0], t.normal[1], t.normal[2], z_interpolated);
-//                auto interpolated_shadingcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), view_pos[0], view_pos[1], view_pos[2], z_interpolated);
-//
-//                //定义名为payload的fragment_shader_payload类型的结构体
-//                fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
-//                payload.view_pos = interpolated_shadingcoords;
-//                auto pixel_color = fragment_shader(payload);
-
-								
+                //用深度插值来判断对应点是否需要渲染
 				if (z_interpolated < inxdepth)
 				{
+                    //TODO: Interpolate the attributes:
+                    //auto interpolated_color
+                    //auto interpolated_normal
+                    //auto interpolated_texcoords
+                    //auto interpolated_shadingcoords
+                
+                    // Use: fragment_shader_payload payload( interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                    // Use: payload.view_pos = interpolated_shadingcoords;
+                    // Use: Instead of passing the triangle's color directly to the frame buffer, pass the color to the shaders first to get the final color;
+                    // Use: auto pixel_color = fragment_shader(payload);
+
                     //颜色插值，纹理坐标插值，法向量插值
                     auto interpolated_color = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.color[0], t.color[1], t.color[2], z_interpolated);
                     auto interpolated_texcoords = interpolate(alpha / t.v[0].w(), beta / t.v[1].w(), gamma / t.v[2].w(), t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], z_interpolated);
@@ -326,17 +326,6 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 			}
 		}
 	}
-
-    //TODO: Interpolate the attributes:
-    //auto interpolated_color
-    //auto interpolated_normal
-    //auto interpolated_texcoords
-    //auto interpolated_shadingcoords
-
-    // Use: fragment_shader_payload payload( interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
-    // Use: payload.view_pos = interpolated_shadingcoords;
-    // Use: Instead of passing the triangle's color directly to the frame buffer, pass the color to the shaders first to get the final color;
-    // Use: auto pixel_color = fragment_shader(payload);
 }
 
 void rst::rasterizer::set_model(const Eigen::Matrix4f& m)
