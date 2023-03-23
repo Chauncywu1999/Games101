@@ -303,10 +303,10 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 		for (int j = floor(ymin); j < ymaxi; j++)
 		{
             //判断像素点是否在三角形中
-			//bool inTriangle = insideTriangle(i, j, t.v);
+			bool inTriangle = insideTriangle(i, j, t.v);
             float degree = depthTriangle(i, j, t.v);
 
-			if (degree > 0)
+			if (inTriangle)
 			{
                 //定义区
                 Eigen::Vector2i point = Eigen::Vector2i(i, j);
@@ -345,17 +345,17 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
                 //用深度插值来判断对应点是否需要渲染
 				if (z_interpolated < inxdepth)
 				{
-                    set_pixel(point, degree * pixel_color);	
+                    set_pixel(point, pixel_color);	
 					rst::rasterizer::depth_degree[index] = degree; 
 					rst::rasterizer::depth_buf[index] = z_interpolated;
 				}
-				else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
-				{
-
-					set_pixel(point, pixel_color * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
-                    rst::rasterizer::depth_degree[index] = (degree + rst::rasterizer::depth_degree[index]) / 2.0;
-					rst::rasterizer::depth_buf[index] = z_interpolated;
-				}
+//				else if (rst::rasterizer::frame_buf[index].norm() != 0.0f && rst::rasterizer::depth_degree[index] < 1.0f)
+//				{
+//
+//					set_pixel(point, pixel_color * (1 - rst::rasterizer::depth_degree[index]) + rst::rasterizer::frame_buf[index]);
+//                    rst::rasterizer::depth_degree[index] = (degree + rst::rasterizer::depth_degree[index]) / 2.0;
+//					rst::rasterizer::depth_buf[index] = z_interpolated;
+//				}
 			}
 		}
 	}
