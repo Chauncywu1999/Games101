@@ -7,7 +7,7 @@
 #include <eigen3/Eigen/Eigen>
 #include "Texture.hpp"
 
-
+//片段着色器装载结构体
 struct fragment_shader_payload
 {
     fragment_shader_payload()
@@ -26,6 +26,7 @@ struct fragment_shader_payload
     Texture* texture;
 };
 
+//顶点着色器装载结构体
 struct vertex_shader_payload
 {
     Eigen::Vector3f position;
