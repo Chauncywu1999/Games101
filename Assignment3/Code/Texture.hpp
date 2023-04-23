@@ -41,6 +41,7 @@ public:
         float u_min;
         float v_min;
 
+        //确定左下角的点
         if (u_img < a && v_img > b)
         {
             u_min = a - 1.0f;

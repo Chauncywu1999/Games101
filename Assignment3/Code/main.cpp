@@ -326,7 +326,7 @@ Eigen::Vector3f displacement_fragment_shader(const fragment_shader_payload& payl
 
     Eigen::Vector3f result_color = {0, 0, 0};
 
-    for (auto& light : lights)
+    for (auto& light : lights   )
     {
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular* 
         // components are. Then, accumulate that result on the *result_color* object.
