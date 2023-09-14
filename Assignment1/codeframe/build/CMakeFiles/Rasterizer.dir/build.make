@@ -79,41 +79,41 @@ include CMakeFiles/Rasterizer.dir/flags.make
 CMakeFiles/Rasterizer.dir/main.cpp.o: CMakeFiles/Rasterizer.dir/flags.make
 CMakeFiles/Rasterizer.dir/main.cpp.o: ../main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wuxiangcheng/project/Assignment1/codeframe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Rasterizer.dir/main.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/main.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/main.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp
 
 CMakeFiles/Rasterizer.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rasterizer.dir/main.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp > CMakeFiles/Rasterizer.dir/main.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp > CMakeFiles/Rasterizer.dir/main.cpp.i
 
 CMakeFiles/Rasterizer.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rasterizer.dir/main.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp -o CMakeFiles/Rasterizer.dir/main.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/main.cpp -o CMakeFiles/Rasterizer.dir/main.cpp.s
 
 CMakeFiles/Rasterizer.dir/rasterizer.cpp.o: CMakeFiles/Rasterizer.dir/flags.make
 CMakeFiles/Rasterizer.dir/rasterizer.cpp.o: ../rasterizer.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wuxiangcheng/project/Assignment1/codeframe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Rasterizer.dir/rasterizer.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/rasterizer.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/rasterizer.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp
 
 CMakeFiles/Rasterizer.dir/rasterizer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rasterizer.dir/rasterizer.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp > CMakeFiles/Rasterizer.dir/rasterizer.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp > CMakeFiles/Rasterizer.dir/rasterizer.cpp.i
 
 CMakeFiles/Rasterizer.dir/rasterizer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rasterizer.dir/rasterizer.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp -o CMakeFiles/Rasterizer.dir/rasterizer.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/rasterizer.cpp -o CMakeFiles/Rasterizer.dir/rasterizer.cpp.s
 
 CMakeFiles/Rasterizer.dir/Triangle.cpp.o: CMakeFiles/Rasterizer.dir/flags.make
 CMakeFiles/Rasterizer.dir/Triangle.cpp.o: ../Triangle.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wuxiangcheng/project/Assignment1/codeframe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Rasterizer.dir/Triangle.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/Triangle.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rasterizer.dir/Triangle.cpp.o -c /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp
 
 CMakeFiles/Rasterizer.dir/Triangle.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rasterizer.dir/Triangle.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp > CMakeFiles/Rasterizer.dir/Triangle.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp > CMakeFiles/Rasterizer.dir/Triangle.cpp.i
 
 CMakeFiles/Rasterizer.dir/Triangle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rasterizer.dir/Triangle.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp -o CMakeFiles/Rasterizer.dir/Triangle.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wuxiangcheng/project/Assignment1/codeframe/Triangle.cpp -o CMakeFiles/Rasterizer.dir/Triangle.cpp.s
 
 # Object files for target Rasterizer
 Rasterizer_OBJECTS = \
@@ -128,62 +128,61 @@ Rasterizer: CMakeFiles/Rasterizer.dir/main.cpp.o
 Rasterizer: CMakeFiles/Rasterizer.dir/rasterizer.cpp.o
 Rasterizer: CMakeFiles/Rasterizer.dir/Triangle.cpp.o
 Rasterizer: CMakeFiles/Rasterizer.dir/build.make
-Rasterizer: /usr/local/lib/libopencv_gapi.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_stitching.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_alphamat.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_aruco.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_barcode.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_bgsegm.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_bioinspired.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_ccalib.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_dnn_objdetect.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_dnn_superres.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_dpm.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_face.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_freetype.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_fuzzy.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_hfs.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_img_hash.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_intensity_transform.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_line_descriptor.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_mcc.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_quality.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_rapid.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_reg.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_rgbd.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_saliency.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_sfm.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_stereo.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_structured_light.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_superres.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_surface_matching.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_tracking.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_videostab.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_viz.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_wechat_qrcode.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_xfeatures2d.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_xobjdetect.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_xphoto.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_shape.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_highgui.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_datasets.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_plot.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_text.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_ml.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_phase_unwrapping.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_optflow.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_ximgproc.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_video.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_videoio.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_imgcodecs.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_objdetect.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_calib3d.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_dnn.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_features2d.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_flann.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_photo.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_imgproc.4.7.0.dylib
-Rasterizer: /usr/local/lib/libopencv_core.4.7.0.dylib
+Rasterizer: /usr/local/lib/libopencv_gapi.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_stitching.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_alphamat.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_aruco.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_bgsegm.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_bioinspired.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_ccalib.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_dnn_objdetect.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_dnn_superres.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_dpm.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_face.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_freetype.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_fuzzy.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_hfs.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_img_hash.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_intensity_transform.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_line_descriptor.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_mcc.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_quality.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_rapid.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_reg.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_rgbd.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_saliency.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_sfm.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_stereo.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_structured_light.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_superres.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_surface_matching.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_tracking.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_videostab.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_viz.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_wechat_qrcode.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_xfeatures2d.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_xobjdetect.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_xphoto.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_shape.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_highgui.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_datasets.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_plot.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_text.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_ml.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_phase_unwrapping.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_optflow.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_ximgproc.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_video.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_videoio.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_imgcodecs.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_objdetect.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_calib3d.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_dnn.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_features2d.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_flann.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_photo.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_imgproc.4.8.0.dylib
+Rasterizer: /usr/local/lib/libopencv_core.4.8.0.dylib
 Rasterizer: CMakeFiles/Rasterizer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/wuxiangcheng/project/Assignment1/codeframe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Rasterizer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Rasterizer.dir/link.txt --verbose=$(VERBOSE)
